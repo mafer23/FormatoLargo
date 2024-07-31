@@ -1,0 +1,182 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyN9E8MGmVPE4olPqBP+ZMbj",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/mafer23/FormatoLargo/blob/master/Formato%20corto%20a%20largo%20con%20codigo\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "NUSBiVQQP8xq"
+      },
+      "outputs": [],
+      "source": [
+        "import pandas as pd\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Leer la base de datos original desde el archivo Excel\n",
+        "df_original = pd.read_excel('/content/BD_Prueba_TransformaciónBases.xlsx', sheet_name='Base Original')"
+      ],
+      "metadata": {
+        "id": "h6CpMNAwQFq-"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Mostrar los primeros registros de la base original para referencia\n",
+        "print(\"Base Original:\")\n",
+        "print(df_original.head())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UY5mpdMsQOPu",
+        "outputId": "79243616-e5f8-469a-eb09-849daf84583e"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Base Original:\n",
+            "   ParticipanteID     Nombre completo        Correo electrónico  Género  \\\n",
+            "0               1    Arlin Lonsbrough     alonsbrough0@usgs.gov   Mujer   \n",
+            "1               2    Merline Ferschke      mferschke1@hexun.com   Mujer   \n",
+            "2               3        Ursula Moret  umoret2@seattletimes.com  Hombre   \n",
+            "3               4     Annette Kliment      akliment3@utexas.edu  Hombre   \n",
+            "4               5  Klement Strickland      kstrickland4@bbb.org   Mujer   \n",
+            "\n",
+            "  Región de residencia            Color favorito  \n",
+            "0                norte             amarillo,rojo  \n",
+            "1                  sur             amarillo,rojo  \n",
+            "2                  sur  amarillo,azul,rojo,verde  \n",
+            "3                norte                      azul  \n",
+            "4                norte             amarillo,rojo  \n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Transformar la base de datos al formato largo\n",
+        "df_long = pd.melt(df_original, id_vars=['ParticipanteID'],\n",
+        "                  value_vars=['Nombre completo', 'Correo electrónico', 'Género', 'Región de residencia', 'Color favorito'],\n",
+        "                  var_name='Variable', value_name='Valor')\n"
+      ],
+      "metadata": {
+        "id": "09JiWzReQUmU"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Mostrar los primeros registros de la base transformada para referencia\n",
+        "print(\"Base Transformada:\")\n",
+        "print(df_long.head())\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "_9ZU6VgOQZf4",
+        "outputId": "4dfa95e7-c851-4540-f2fc-763e5e05ee78"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Base Transformada:\n",
+            "   ParticipanteID         Variable               Valor\n",
+            "0               1  Nombre completo    Arlin Lonsbrough\n",
+            "1               2  Nombre completo    Merline Ferschke\n",
+            "2               3  Nombre completo        Ursula Moret\n",
+            "3               4  Nombre completo     Annette Kliment\n",
+            "4               5  Nombre completo  Klement Strickland\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "# Guardar la base transformada en un nuevo archivo Excel\n",
+        "output_file_path = 'BD_Prueba_TransformaciónBases_Transformada.xlsx'\n",
+        "df_long.to_excel(output_file_path, index=False)"
+      ],
+      "metadata": {
+        "id": "XpXbYEEQQdwT"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(f\"Transformación completada y datos guardados en '{output_file_path}'\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "xP5RcH_cQhQr",
+        "outputId": "0085b374-e123-40a8-e8f9-2eb5605e0db7"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Transformación completada y datos guardados en 'BD_Prueba_TransformaciónBases_Transformada.xlsx'\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "7U6vgw9FQjP-"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
